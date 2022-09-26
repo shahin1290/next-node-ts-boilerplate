@@ -1,5 +1,6 @@
 import config from "config";
 import express from "express";
+import routes from "./routes";
 import connect from "./utils/connect";
 const port = config.get<string>("port");
 
@@ -11,4 +12,6 @@ app.listen(port, async () => {
   console.info(`App is running at http://localhost: ${port}`);
 
   await connect();
+
+  routes(app);
 });

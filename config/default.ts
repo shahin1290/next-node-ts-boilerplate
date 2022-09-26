@@ -1,4 +1,5 @@
 export default {
-    port: 1337,
-    dbUri: "mongodb://localhost:27017/ultimate-boilerplate"
-}
+  port: 4000,
+  dbUri: "mongodb://localhost:27017/ultimate-boilerplate",
+  saltWorkFactor: 10,
+};
