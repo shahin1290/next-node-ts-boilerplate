@@ -40,3 +40,4 @@ export async function validateEmailAndPassword({
 export async function findUser(query: FilterQuery<UserDocument>) {
   return await UserModel.findOne(query).lean();
 }
+

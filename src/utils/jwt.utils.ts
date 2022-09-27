@@ -1,26 +1,28 @@
 import jwt from "jsonwebtoken";
 import config from "config";
+import { RefreshToken, TokenPayload } from "../../shared";
 
-const privateKey = config.get<string>("privateKey");
-const publicKey = config.get<string>("publicKey");
+enum TokenExpiration {
+  Access = 5 * 60,
+  Refresh = 7 * 24 * 60 * 60,
+  RefreshIfLessThan = 4 * 24 * 60 * 60,
+}
 
-export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
-  return jwt.sign(object, privateKey, {
-    ...(options && options),
-    algorithm: "RS256",
+const accessTokenSecret = config.get<string>("accessTokenSecret");
+const refreshTokenSecret = config.get<string>("refreshTokenSecret");
+
+export function signAccessToken(payload: TokenPayload) {
+  return jwt.sign(payload, accessTokenSecret, {
+    expiresIn: TokenExpiration.Access,
   });
 }
 
-export function verifyJwt(token: string) {
-  try {
-    const decoded = jwt.verify(token, publicKey);
+export function signRefreshToken(payload: TokenPayload) {
+  return jwt.sign(payload, refreshTokenSecret, {
+    expiresIn: TokenExpiration.Refresh,
+  });
+}
 
-    return { valid: true, expired: false, decoded };
-  } catch (error: any) {
-    return {
-      valid: false,
-      expired: error.message === "jwt expired",
-      decoded: null,
-    };
-  }
+export function verifyRefreshToken(token: string) {
+  return jwt.verify(token, refreshTokenSecret) as RefreshToken;
 }
