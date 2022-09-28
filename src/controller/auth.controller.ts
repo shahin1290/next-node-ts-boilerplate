@@ -1,3 +1,4 @@
+import config from "config";
 import { Request, Response } from "express";
 import { Cookies } from "../../shared";
 import { findUser, validateEmailAndPassword } from "../service/user.service";
@@ -30,8 +31,11 @@ export async function loginHandler(req: Request, res: Response) {
 
   //set as cookie
   res.cookie(Cookies.RefreshToken, refreshToken, {
-    httpOnly: true, //accessible only by web server
-    secure: true, //https
+    httpOnly: true,
+    sameSite: config.get("isProduction") ? "strict" : "lax",
+    secure: config.get("isProduction"),
+    domain: "localhost",
+    path: "/",
     maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
   });
 
@@ -78,8 +82,8 @@ export const logout = (req: Request, res: Response) => {
   if (!req.cookies[Cookies.RefreshToken]) return res.sendStatus(204); //No content
   res.clearCookie(Cookies.RefreshToken, {
     httpOnly: true,
-    sameSite: "none",
-    secure: true,
+    sameSite: config.get("isProduction") ? "strict" : "lax",
+    secure: config.get("isProduction"),
   });
   res.json({ message: "Cookie cleared" });
 };

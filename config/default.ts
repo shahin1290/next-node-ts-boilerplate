@@ -1,5 +1,7 @@
 export default {
+  isProduction: process.env.NODE_ENV! === "production",
   port: 4000,
+  origin: "http://localhost:3000",
   dbUri: "mongodb://localhost:27017/ultimate-boilerplate",
   saltWorkFactor: 10,
   accessTokenTl: "15m",
