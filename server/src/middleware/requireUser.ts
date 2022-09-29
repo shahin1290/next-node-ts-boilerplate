@@ -1,13 +1,20 @@
 import { NextFunction, Request, Response } from "express";
+import { Cookies } from "../shared";
+import { verifyAccessToken } from "../utils/jwt.utils";
 
-const requireUser = (req: Request, res: Response, next: NextFunction) => {
-  const user = res.locals.user;
+export function requireUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const token = verifyAccessToken(req.cookies[Cookies.AccessToken]);
 
-  if (!user) {
-    return res.sendStatus(403);
+  if (!token) {
+    res.status(401);
+    return next(new Error("Not Signed in"));
   }
 
-  next();
-};
+  res.locals.token = token;
 
-export default requireUser;
+  next();
+}

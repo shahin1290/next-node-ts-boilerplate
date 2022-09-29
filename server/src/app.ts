@@ -1,26 +1,26 @@
-import config from "config";
+import * as dotenv from "dotenv";
+dotenv.config();
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
-import deserializeUser from "./middleware/deserializeUser";
 import routes from "./routes";
 import connect from "./utils/connect";
+import { config } from "../config";
 
-const port = config.get<string>("port");
-const origin = config.get<string>("origin");
+const port = config.port;
+
 
 const app = express();
 
 app.use(
   cors({
-    origin,
+    origin: config.clientUrl,
     credentials: true,
   })
 );
 app.use(cookieParser());
 
 app.use(express.json());
-app.use(deserializeUser);
 
 app.listen(port, async () => {
   console.info(`App is running at http://localhost: ${port}`);

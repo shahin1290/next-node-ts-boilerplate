@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import config from "config";
+import { number } from "zod";
 
 export interface UserDocument extends mongoose.Document {
   email: string;
   name: string;
+  tokenVersion: number;
   password: string;
   createdAt: Date;
   updatedAt: Date;
@@ -16,6 +17,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     password: { type: String, required: true },
+    tokenVersion: { type: Number, default: 0 },
   },
 
   { timestamps: true }
@@ -28,7 +30,7 @@ userSchema.pre("save", async function (next) {
     return next();
   }
 
-  const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"));
+  const salt = await bcrypt.genSalt(10);
 
   const hash = await bcrypt.hashSync(user.password, salt);
 

@@ -1,9 +1,9 @@
-import config from "config";
+import { config } from "../../config";
 import mongoose from "mongoose";
 
-async function connect() {
-  const dbUri = config.get<string>("dbUri");
+const dbUri= "mongodb://localhost:27017/ultimate-boilerplate"
 
+async function connect() {
   try {
     await mongoose.connect(dbUri);
     console.info("DB Connected");

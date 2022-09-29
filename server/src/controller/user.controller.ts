@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { omit } from "lodash";
 import { CreateUserInput } from "../schema/user.schema";
-import { createUser } from "../service/user.service";
+import { createUser, findUser } from "../service/user.service";
 
 export async function createUserHandler(
   req: Request<{}, {}, CreateUserInput["body"]>,
@@ -16,5 +16,6 @@ export async function createUserHandler(
   }
 }
 export async function currentUserHandler(req: Request, res: Response) {
-  return res.send(res.locals.user);
+  const user = await findUser({ _id: res.locals.token.userId });
+  res.json(user);
 }
