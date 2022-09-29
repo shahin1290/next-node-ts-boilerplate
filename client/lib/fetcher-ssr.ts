@@ -1,6 +1,6 @@
 import axios, { AxiosRequestHeaders, AxiosResponse } from "axios";
-import cookie from "cookie";
-import { IncomingHttpHeaders, ServerResponse } from "http";
+import { IncomingMessage, ServerResponse } from "http";
+
 import { environment } from "./environment";
 import { getError } from "./errors";
 
@@ -8,32 +8,22 @@ export type QueryResponse<T> = [error: string | null, data: T | null];
 
 const SET_COOKIE_HEADER = "set-cookie";
 
-const refreshTokens = async (
-  req: { headers: IncomingHttpHeaders },
-  res: ServerResponse
-) => {
-  const cookies = cookie.parse(req.headers.cookie!);
+const refreshTokens = async (req: IncomingMessage, res: ServerResponse) => {
+  const response = await axios.post(
+    `${environment.apiUrl}/api/refresh`,
+    undefined,
+    {
+      headers: { cookie: req.headers.cookie! },
+    }
+  );
+  const cookies = response.headers[SET_COOKIE_HEADER];
 
-  if (cookies.refresh) {
-    const response = await axios.post(
-      `${environment.apiUrl}/api/refresh`,
-      undefined,
-      {
-        headers: { cookie: `refresh=${cookies.refresh}` },
-      }
-    );
-
-    //const cookiess = response.headers[SET_COOKIE_HEADER];
-
-    req.headers.cookie = cookies;
-    res.setHeader(SET_COOKIE_HEADER, cookies);
-
-    console.log("response", response.headers);
-  }
+  req.headers.cookie = cookies;
+  res.setHeader(SET_COOKIE_HEADER, cookies);
 };
 
 const handleRequest = async (
-  req: { headers: IncomingHttpHeaders },
+  req: IncomingMessage,
   res: ServerResponse,
   request: () => Promise<AxiosResponse>
 ) => {
@@ -53,8 +43,8 @@ const handleRequest = async (
   }
 };
 
-export const fetcher = async <T>(
-  req: { headers: IncomingHttpHeaders },
+export const fetcherSSR = async <T>(
+  req: IncomingMessage,
   res: ServerResponse,
   url: string
 ): Promise<QueryResponse<T>> => {

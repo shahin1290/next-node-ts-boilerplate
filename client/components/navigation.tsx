@@ -10,8 +10,10 @@ export function Navigation() {
         <Link href="/">
           <a className={router.pathname == "/" ? "text-gray-900" : ""}>Home</a>
         </Link>
-        <Link href="/me">
-          <a className={router.pathname == "/me" ? "text-gray-900" : ""}>CSR</a>
+        <Link href="/me-csr">
+          <a className={router.pathname == "/me-csr" ? "text-gray-900" : ""}>
+            CSR
+          </a>
         </Link>
         <Link href="/me-ssr">
           <a className={router.pathname == "/me-ssr" ? "text-gray-900" : ""}>
