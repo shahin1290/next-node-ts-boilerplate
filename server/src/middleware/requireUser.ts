@@ -2,11 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Cookies } from "../shared";
 import { verifyAccessToken } from "../utils/jwt.utils";
 
-export function requireUser(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export function requireUser(req: Request, res: Response, next: NextFunction) {
   const token = verifyAccessToken(req.cookies[Cookies.AccessToken]);
 
   if (!token) {

@@ -4,6 +4,7 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { object, string, TypeOf } from "zod";
 import { useState } from "react";
+import { environment } from "../../lib/environment";
 
 const createUserSchema = object({
   name: string().nonempty({
@@ -44,17 +45,12 @@ function RegisterPage() {
 
   async function onSubmit(values: CreateUserInput) {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/users`,
-        values
-      );
+      await axios.post(`${environment.apiUrl}/api/users`, values);
       router.push("/");
     } catch (e: any) {
       setRegisterError(e.message);
     }
   }
-
-  console.log({ errors });
 
   return (
     <>

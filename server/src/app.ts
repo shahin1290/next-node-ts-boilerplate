@@ -9,7 +9,6 @@ import { config } from "../config";
 
 const port = config.port;
 
-
 const app = express();
 
 app.use(

@@ -4,7 +4,10 @@ import UserModel, { UserDocument } from "../models/user.model";
 
 export async function createUser(
   input: DocumentDefinition<
-    Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">
+    Omit<
+      UserDocument,
+      "createdAt" | "updatedAt" | "comparePassword" | "tokenVersion"
+    >
   >
 ) {
   try {
@@ -41,3 +44,12 @@ export async function findUser(query: FilterQuery<UserDocument>) {
   return await UserModel.findOne(query).lean();
 }
 
+export async function increaseTokenVersion(userId: string) {
+  const result = await UserModel.findOneAndUpdate(
+    { _id: userId },
+    { $inc: { tokenVersion: 1 } }
+  );
+  if (result) return result;
+
+  throw new Error();
+}

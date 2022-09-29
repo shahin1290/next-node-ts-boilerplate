@@ -1,7 +1,8 @@
 import { Express, Request, Response } from "express";
 import {
   loginHandler,
-  logout,
+  logoutAllHandler,
+  logoutHandler,
   refreshHandler,
 } from "./controller/auth.controller";
 import {
@@ -21,13 +22,10 @@ function routes(app: Express) {
 
   app.post("/api/login", validateResource(loginSchema), loginHandler);
 
-  app.get("/api/refresh", refreshHandler);
+  app.post("/api/refresh", refreshHandler);
 
-  app.post("/api/logout", requireUser, logout);
-
-  // app.get("/api/sessions", requireUser, getUserSessionsHandler);
-
-  // app.delete("/api/sessions", requireUser, deleteUserSessionHandler);
+  app.post("/api/logout", requireUser, logoutHandler);
+  app.post("/api/logout-all", requireUser, logoutAllHandler);
 }
 
 export default routes;

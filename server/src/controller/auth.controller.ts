@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { Cookies } from "../shared";
 import { config } from "../../config";
-import { findUser, validateEmailAndPassword } from "../service/user.service";
+import {
+  findUser,
+  increaseTokenVersion,
+  validateEmailAndPassword,
+} from "../service/user.service";
 import {
   buildTokens,
   clearTokens,
@@ -36,17 +40,26 @@ export async function refreshHandler(req: Request, res: Response) {
     const user = await findUser({ _id: current.userId });
     if (!user) throw "User not found";
 
-    const { accessToken, refreshToken } = refreshTokens(
-      current,
-      user.tokenVersion
-    );
-    setTokens(res, accessToken, refreshToken);
+    const { accessToken } = refreshTokens(current, user.tokenVersion);
+
+    console.log({ accessToken });
+
+    setTokens(res, accessToken);
   } catch (error) {
     clearTokens(res);
   }
+
+  res.end();
 }
 
-export const logout = (req: Request, res: Response) => {
+export const logoutHandler = (req: Request, res: Response) => {
+  clearTokens(res);
+  res.end();
+};
+
+export const logoutAllHandler = async (req: Request, res: Response) => {
+  await increaseTokenVersion(res.locals.token.userId);
+
   clearTokens(res);
   res.end();
 };

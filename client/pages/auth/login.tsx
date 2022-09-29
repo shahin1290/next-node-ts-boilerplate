@@ -29,11 +29,9 @@ function LoginPage() {
 
   async function onSubmit(values: CreateSessionInput) {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/login`,
-        values,
-        { withCredentials: true }
-      );
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, values, {
+        withCredentials: true,
+      });
       router.push("/");
     } catch (e: any) {
       setLoginError(e.message);
