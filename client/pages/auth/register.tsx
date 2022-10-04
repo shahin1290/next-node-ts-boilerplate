@@ -45,7 +45,7 @@ function RegisterPage() {
 
   async function onSubmit(values: CreateUserInput) {
     try {
-      await axios.post(`${environment.apiUrl}/api/users`, values);
+      await axios.post("/api/users", values);
       router.push("/");
     } catch (e: any) {
       setRegisterError(e.message);
@@ -53,7 +53,7 @@ function RegisterPage() {
   }
 
   return (
-    <>
+    <main className="flex items-center justify-center h-full gap-2">
       <p>{registerError}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-element">
@@ -101,7 +101,7 @@ function RegisterPage() {
         </div>
         <button type="submit">SUBMIT</button>
       </form>
-    </>
+    </main>
   );
 }
 

@@ -1,11 +1,9 @@
-import { config } from "../../config";
 import mongoose from "mongoose";
-
-const dbUri= "mongodb://localhost:27017/ultimate-boilerplate"
+import { config } from "../../config";
 
 async function connect() {
   try {
-    await mongoose.connect(dbUri);
+    await mongoose.connect(config.mongoURL);
     console.info("DB Connected");
   } catch (error) {
     console.error("Could not connect to db");

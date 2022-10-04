@@ -9,7 +9,7 @@ export default function Me() {
   const { user, setUser } = useUser();
 
   const getMe = async () => {
-    const [error, user] = await fetcher<User>(`${environment.apiUrl}/api/me`);
+    const [error, user] = await fetcher<User>("/api/me");
     if (!error && user) setUser(user);
     else Router.push("/");
   };

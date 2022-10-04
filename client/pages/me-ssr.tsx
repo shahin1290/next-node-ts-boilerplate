@@ -23,15 +23,12 @@ const MeSSR: FC = () => {
 
 export default MeSSR;
 
-export const getServerSideProps: GetServerSideProps = async ({req, res}: GetServerSidePropsContext) => {
-  const [error, user] = await fetcherSSR(
-    req,
-    res,
-    `${environment.apiUrl}/api/me`
-  );
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+}: GetServerSidePropsContext) => {
+  const [error, user] = await fetcherSSR(req, res, "/api/me");
 
-
-  if (!user)
-    return { redirect: { statusCode: 307, destination: "/auth/login" } };
+  if (!user) return { redirect: { statusCode: 307, destination: "/" } };
   return { props: { user } };
 };

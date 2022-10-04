@@ -52,9 +52,9 @@ export function verifyAccessToken(token: string) {
 
 const defaultCookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: config.isProduction,
+  // secure: config.isProduction,
   sameSite: config.isProduction ? "strict" : "lax",
-  domain: config.baseDomain,
+  // domain: config.baseDomain,
   path: "/",
 };
 

@@ -17,15 +17,15 @@ import { createUserSchema } from "./schema/user.schema";
 function routes(app: Express) {
   app.get("/healthcheck", (req: Request, res: Response) => res.sendStatus(200));
 
-  app.post("/api/users", validateResource(createUserSchema), createUserHandler);
-  app.get("/api/me", requireUser, currentUserHandler);
+  app.post("/users", validateResource(createUserSchema), createUserHandler);
+  app.get("/me", requireUser, currentUserHandler);
 
-  app.post("/api/login", validateResource(loginSchema), loginHandler);
+  app.post("/login", validateResource(loginSchema), loginHandler);
 
-  app.post("/api/refresh", refreshHandler);
+  app.post("/refresh", refreshHandler);
 
-  app.post("/api/logout", requireUser, logoutHandler);
-  app.post("/api/logout-all", requireUser, logoutAllHandler);
+  app.post("/logout", requireUser, logoutHandler);
+  app.post("/logout-all", requireUser, logoutAllHandler);
 }
 
 export default routes;

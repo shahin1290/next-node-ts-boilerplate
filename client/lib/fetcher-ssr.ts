@@ -9,13 +9,9 @@ export type QueryResponse<T> = [error: string | null, data: T | null];
 const SET_COOKIE_HEADER = "set-cookie";
 
 const refreshTokens = async (req: IncomingMessage, res: ServerResponse) => {
-  const response = await axios.post(
-    `${environment.apiUrl}/api/refresh`,
-    undefined,
-    {
-      headers: { cookie: req.headers.cookie! },
-    }
-  );
+  const response = await axios.post("/api/refresh", undefined, {
+    headers: { cookie: req.headers.cookie! },
+  });
   const cookies = response.headers[SET_COOKIE_HEADER];
 
   req.headers.cookie = cookies;

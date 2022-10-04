@@ -29,7 +29,7 @@ function LoginPage() {
 
   async function onSubmit(values: CreateSessionInput) {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, values, {
+      await axios.post("/api/login", values, {
         withCredentials: true,
       });
       router.push("/");
@@ -39,7 +39,7 @@ function LoginPage() {
   }
 
   return (
-    <>
+    <main className="flex items-center justify-center h-full gap-2">
       <p>{loginError}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-element">
@@ -66,7 +66,7 @@ function LoginPage() {
 
         <button type="submit">SUBMIT</button>
       </form>
-    </>
+    </main>
   );
 }
 

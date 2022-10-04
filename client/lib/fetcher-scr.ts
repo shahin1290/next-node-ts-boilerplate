@@ -6,7 +6,7 @@ import { getError } from "./errors";
 export type QueryResponse<T> = [error: string | null, data: T | null];
 
 export const refreshTokens = async () => {
-  await axios.post(`${environment.apiUrl}/api/refresh`, undefined, {
+  await axios.post("/api/refresh", undefined, {
     withCredentials: true,
   });
 };
