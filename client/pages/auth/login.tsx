@@ -64,7 +64,7 @@ function LoginPage() {
           <p>{errors.password?.message}</p>
         </div>
 
-        <button type="submit">SUBMIT</button>
+        <button type="submit">submit</button>
       </form>
     </main>
   );
