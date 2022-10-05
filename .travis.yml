@@ -8,7 +8,7 @@ before_install:
   - docker build -t shahin1290/react-test -f ./client/Dockerfile.dev ./client
 
  script:
-   - docker run -e CI=true shahin1290/react-test npm test
+   - docker run -e CI=true shahin1290/react-test npm run test
 
 after_success:
   - docker build -t shahin1290/multi-client ./client
