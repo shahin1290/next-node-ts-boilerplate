@@ -1,9 +1,9 @@
-name: Deploy mern app to Elastic Beanstalk
+name: Deploy boilerplate app to Elastic Beanstalk
 
 on:
   pull_request:
     branches:
-      - main
+      - master
     types:
       - "closed"
 
@@ -42,7 +42,7 @@ jobs:
           file: ./client/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mern-client:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/boilerplate-client:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
@@ -53,7 +53,7 @@ jobs:
           file: ./server/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mern-server:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/boilerplate-server:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
@@ -64,7 +64,7 @@ jobs:
           file: ./nginx/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mern-nginx:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/boilerplate-nginx:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
