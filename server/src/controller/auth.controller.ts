@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Cookies } from "../shared";
-import { config } from "../../config";
 import {
   findUser,
   increaseTokenVersion,
@@ -52,12 +51,12 @@ export async function refreshHandler(req: Request, res: Response) {
   res.end();
 }
 
-export const logoutHandler = (req: Request, res: Response) => {
+export const logoutHandler = (_: Request, res: Response) => {
   clearTokens(res);
   res.end();
 };
 
-export const logoutAllHandler = async (req: Request, res: Response) => {
+export const logoutAllHandler = async (_: Request, res: Response) => {
   await increaseTokenVersion(res.locals.token.userId);
 
   clearTokens(res);

@@ -5,7 +5,7 @@ import cors from "cors";
 import express from "express";
 import routes from "./routes";
 import connect from "./utils/connect";
-import { config } from "../config";
+import { config } from "./config";
 
 const port = config.port;
 

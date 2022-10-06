@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { Navigation } from "../components/navigation";
 import { UserProvider } from "../contexts/user-context";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: any) {
   return (
     <UserProvider initialUser={pageProps?.user}>
       <div className="h-screen">

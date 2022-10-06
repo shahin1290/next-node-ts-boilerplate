@@ -14,8 +14,11 @@ const refreshTokens = async (req: IncomingMessage, res: ServerResponse) => {
   });
   const cookies = response.headers[SET_COOKIE_HEADER];
 
-  req.headers.cookie = cookies;
-  res.setHeader(SET_COOKIE_HEADER, cookies);
+  // req.headers.cookie as string | number | readonly string[] = cookies;
+  res.setHeader(
+    SET_COOKIE_HEADER,
+    req.headers.cookie as string | number | readonly string[]
+  );
 };
 
 const handleRequest = async (

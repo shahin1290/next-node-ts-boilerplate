@@ -7,7 +7,7 @@ import {
   RefreshToken,
   RefreshTokenPayload,
 } from "../shared";
-import { config } from "../../config";
+import { config } from "../config";
 
 enum TokenExpiration {
   Access = 5 * 60,
@@ -52,10 +52,9 @@ export function verifyAccessToken(token: string) {
 
 const defaultCookieOptions: CookieOptions = {
   httpOnly: true,
-  // secure: config.isProduction,
-  sameSite: config.isProduction ? "strict" : "lax",
+  // secure: true,
+  sameSite: true,
   // domain: config.baseDomain,
-  path: "/",
 };
 
 const refreshTokenCookieOptions: CookieOptions = {
@@ -89,10 +88,7 @@ export function refreshTokens(current: RefreshToken, tokenVersion: number) {
   //   refreshPayload = { userId: current.userId, version: tokenVersion };
   // }
 
-  
-
   const accessToken = signAccessToken(accessPayload);
- 
 
   return { accessToken };
 }

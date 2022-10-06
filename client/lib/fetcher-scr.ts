@@ -16,12 +16,12 @@ const handleRequest = async (
 ): Promise<AxiosResponse> => {
   try {
     return await request();
-  } catch (error) {
+  } catch (error: any) {
     if (error?.response?.status === 401) {
       try {
         await refreshTokens();
         return await request();
-      } catch (innerError) {
+      } catch (innerError: any) {
         throw getError(innerError);
       }
     }
@@ -35,7 +35,7 @@ export const fetcher = async <T>(url: string): Promise<QueryResponse<T>> => {
     const request = () => axios.get(url, { withCredentials: true });
     const { data } = await handleRequest(request);
     return [null, data];
-  } catch (error) {
+  } catch (error: any) {
     return [error, null];
   }
 };
@@ -48,7 +48,7 @@ export const poster = async <T>(
     const request = () => axios.post(url, payload, { withCredentials: true });
     const { data } = await handleRequest(request);
     return [null, data];
-  } catch (error) {
+  } catch (error: any) {
     return [error, null];
   }
 };
