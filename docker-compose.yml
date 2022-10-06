@@ -1,28 +1,24 @@
-# version: "3"
-# services:
-#   nginx:
-#     depends_on:
-#       - api
-#       - client
-#     restart: always
-#     build:
-#       dockerfile: Dockerfile
-#       context: ./nginx
-#     ports:
-#       - "3050:80"
-#   api:
-#     build:
-#       dockerfile: Dockerfile
-#       context: ./server
-#     volumes:
-#       - /app/node_modules
-#       - ./server:/app
-#   client:
-#     environment:
-#       - WDS_SOCKET_PORT=0
-#     build:
-#       dockerfile: Dockerfile
-#       context: ./client
-#     volumes:
-#       - /app/node_modules
-#       - ./client:/app
+version: "3.8"
+services:
+    nginx:
+        image: shahin1290/boilerplate-nginx:latest
+        restart: always
+        depends_on:
+            - client
+            - api
+        ports:
+            - "80:80"
+
+    client:
+        image: shahin1290/boilerplate-client:latest
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+
+    api:
+        image: shahin1290/boilerplate-server:latest
+        environment:
+            - CLIENT_URL=${CLIENT_URL}
+            - BASE_DOMAIN=${BASE_DOMAIN}
+            - MONGODB_URL=${MONGODB_URL}
+            - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+            - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
