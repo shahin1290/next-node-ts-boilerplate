@@ -1,20 +1,37 @@
-version: "3.8"
+version: "3"
 services:
   nginx:
-    image: shahin1290/boilerplate-nginx:latest
-    restart: always
     depends_on:
-      - client
       - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
     ports:
-      - "80:80"
-
-  client:
-    image: shahin1290/boilerplate-client:latest
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-
+      - "3050:80"
   api:
-    image: shahin1290/boilerplate-server:latest
-    env_file:
-      - ./server/.env
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+  client:
+    environment:
+      - WDS_SOCKET_PORT=0
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+  tests:
+    stdin_open: true
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    command: ["npm", "run", "test"]

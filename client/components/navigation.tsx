@@ -20,11 +20,7 @@ export function Navigation() {
             SSR
           </a>
         </Link>
-        <Link href="/realtime">
-          <a className={router.pathname == "/realtime" ? "text-gray-900" : ""}>
-            Realtime
-          </a>
-        </Link>
+        
       </div>
     </div>
   );
